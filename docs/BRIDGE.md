@@ -1,6 +1,6 @@
 # The local bridge
 
-Optional and **off by default**. It lets another program on the same computer read what Warmreach knows and hand it people and messages to send. Leave the address empty in the settings (Advanced) and the extension never sends anything anywhere except to LinkedIn.
+Optional and **off by default**. It lets another program on the same computer read what LinkedIn Autopilot knows and hand it people and messages to send. Leave the address empty in the settings (Advanced) and the extension never sends anything anywhere except to LinkedIn.
 
 The address must be `localhost`, `127.0.0.1` or `[::1]`. Anything else is refused.
 
@@ -11,7 +11,7 @@ About once a minute, if an address is set:
 1. `GET {address}/commands` and applies what it returns.
 2. `POST {address}/snapshot` with everything below, including the results of the last commands.
 
-Every request carries the header `x-warmreach: 1` (a web page cannot send this without a preflight your program should refuse), and `authorization: Bearer <token>` if you set a token.
+Every request carries the header `x-linkedin-autopilot: 1` (a web page cannot send this without a preflight your program should refuse), and `authorization: Bearer <token>` if you set a token.
 
 ## `GET /commands`
 
@@ -51,7 +51,7 @@ Stages: `found`, `invited`, `connected`, `messaged`, `replied`, `skipped`. Respo
 import http from 'node:http';
 let commands = [];
 http.createServer((req, res) => {
-  if (req.headers['x-warmreach'] !== '1') { res.writeHead(403); return res.end(); }
+  if (req.headers['x-linkedin-autopilot'] !== '1') { res.writeHead(403); return res.end(); }
   res.setHeader('content-type', 'application/json');
   if (req.method === 'GET' && req.url === '/bridge/commands') return res.end(JSON.stringify({ commands }));
   let body = ''; req.on('data', (d) => (body += d));

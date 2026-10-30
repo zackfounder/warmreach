@@ -18,7 +18,7 @@ test('bridge end to end: a local program queues a message, the extension sends i
   const received = { snapshots: [], auth: [], marker: [] };
   let commands = [{ id: 'k1', type: 'add_people', stage: 'connected', people: [{ name: 'Rachel Kim', url: 'https://www.linkedin.com/in/first-rachel-kim' }] }, { id: 'k2', type: 'send', url: 'https://www.linkedin.com/in/first-rachel-kim', text: 'Hi Rachel, thanks for connecting. A quick question for you.' }];
   const bridge = http.createServer((req, res) => {
-    received.auth.push(req.headers.authorization); received.marker.push(req.headers['x-warmreach']);
+    received.auth.push(req.headers.authorization); received.marker.push(req.headers['x-linkedin-autopilot']);
     res.setHeader('content-type', 'application/json');
     if (req.url === '/bridge/commands') { res.end(JSON.stringify({ commands })); commands = []; return; }
     let body = '';

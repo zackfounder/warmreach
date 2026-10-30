@@ -1,4 +1,4 @@
-// The hands of Warmreach: what happens on a LinkedIn page when the background worker asks for it.
+// The hands of the extension: what happens on a LinkedIn page when the background worker asks for it.
 // Everything is found by visible text or aria-label, not by LinkedIn's generated class names, because those change weekly.
 // Every action ends at the same place: one result object { ok, code, detail, ... }. Nothing here decides *whether* to act.
 (function () {
@@ -13,7 +13,7 @@
   const vis = (el) => !!el && !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
   const txt = (el) => clean(el.innerText || el.textContent);
   const label = (el) => clean(el.getAttribute && el.getAttribute('aria-label'));
-  const all = (sel, root = document) => [...root.querySelectorAll(sel)].filter(vis);
+  const all = (sel, root = document) => deepAll(sel, root).filter(vis);
   // LinkedIn draws its pop-ups (invitation, post editor) inside a shadow root, which a normal query cannot see into.
   const deepAll = (sel, root = document) => {
     const out = [...root.querySelectorAll(sel)];
@@ -159,10 +159,13 @@
     const btn = findBtn([/^message\b/i], mainEl());
     if (!btn) return fail('not_connected', 'No Message button: not a 1st-degree connection yet');
     await click(btn);
-    const box = await waitFor(() => all('[contenteditable="true"][role="textbox"], .msg-form__contenteditable').slice(-1)[0], 8000);
+    // LinkedIn draws the message box in a shadow root too, so look inside those, and look for the Send button next to it.
+    const BOX = '[contenteditable="true"][role="textbox"], .msg-form__contenteditable, [contenteditable="true"][aria-label*="message" i]';
+    const box = await waitFor(() => all(BOX).slice(-1)[0], 12000);
     if (!box) return fail('not_found', 'The message box did not open');
     await typeInto(box, text);
-    const scope = box.closest('form') || box.closest('[role="dialog"]') || document;
+    const root = box.getRootNode();
+    const scope = box.closest('form') || box.closest('[role="dialog"]') || (root instanceof ShadowRoot ? root : document);
     const send = findBtn([/^send$/i], scope, 'button');
     if (!send) return fail('not_found', 'The Send button was not found');
     if (rehearse) {
@@ -188,11 +191,12 @@
 
   async function readInbox() {
     const bad = await ready('the inbox'); if (bad) return fail(bad.code, bad.detail);
-    const first = await waitFor(() => document.querySelector('a[href*="/messaging/thread/"]') || (/no messages|start a conversation/i.test(document.body.innerText) ? document.body : null), 15000);
+    const THREAD = 'a[href*="/messaging/thread/"]';
+    const first = await waitFor(() => deepAll(THREAD)[0] || (/no messages|start a conversation/i.test(document.body.innerText) ? document.body : null), 25000);
     if (!first) return fail('not_found', 'The conversation list did not load');
     const seen = new Set();
     const threads = [];
-    for (const a of document.querySelectorAll('a[href*="/messaging/thread/"]')) {
+    for (const a of deepAll(THREAD)) {
       const li = a.closest('li') || a.parentElement;
       if (!li || seen.has(li)) continue;
       seen.add(li);

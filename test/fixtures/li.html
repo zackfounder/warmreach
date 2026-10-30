@@ -24,8 +24,8 @@ if (/^\/in\//.test(path)) {
   if (variant === 'pending') btn('Pending', `Pending, click to withdraw invitation sent to ${nice}`);
   else if (first) {
     btn('Message').onclick = () => {
-      document.body.append(el(`<div class="msg-overlay"><button aria-label="Close your conversation with ${nice}">x</button><div role="textbox" contenteditable="true" aria-label="Write a message"></div><div id="thread"></div><button type="submit">Send</button></div>`));
-      const o = document.querySelector('.msg-overlay'), box = o.querySelector('[role=textbox]');
+      sr.append(el(`<div class="msg-overlay"><button aria-label="Close your conversation with ${nice}">x</button><div role="textbox" contenteditable="true" aria-label="Write a message"></div><div id="thread"></div><button type="submit">Send</button></div>`));
+      const o = sr.querySelector('.msg-overlay'), box = o.querySelector('[role=textbox]');
       o.querySelector('[type=submit]').onclick = () => { const t = box.innerText.trim(); if (!t) return; window.__log.push({ kind: 'message', text: t }); o.querySelector('#thread').textContent = t; box.innerHTML = ''; };
       o.querySelector('button[aria-label^=Close]').onclick = () => o.remove();
     };
