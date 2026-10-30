@@ -1,4 +1,4 @@
-// The hands of Open Outreach: what happens on a LinkedIn page when the background worker asks for it.
+// The hands of Warmreach: what happens on a LinkedIn page when the background worker asks for it.
 // Everything is found by visible text or aria-label, not by LinkedIn's generated class names, because those change weekly.
 // Every action ends at the same place: one result object { ok, code, detail, ... }. Nothing here decides *whether* to act.
 (function () {
