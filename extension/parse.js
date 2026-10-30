@@ -34,7 +34,7 @@ export function cleanName(raw) {
 export function parseCapture({ text = '', links = [] }) {
   const seen = new Set();
   const people = [];
-  const lines = text.split(/\r?\n/).map((l) => l.replace(/ /g, ' ').trim()).filter(Boolean);
+  const lines = text.split(/\r?\n/).map((l) => l.split(String.fromCharCode(160)).join(' ').trim()).filter(Boolean);
   const norm = lines.map((l) => cleanName(l));
   for (const lk of links) {
     if (!/linkedin\.com\/in\//i.test(lk.href || '')) continue;
