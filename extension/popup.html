@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Open Outreach</title><link rel="stylesheet" href="ui.css">
+<style>
+  body { width:340px; font-size:13px; }
+  header { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--line); }
+  h1 { font-size:15px; margin:0; }
+  section { padding:12px 14px; border-bottom:1px solid var(--line); } section:last-child { border-bottom:0; }
+  button.big { width:100%; padding:14px 10px; font-size:15px; border-radius:10px; }
+  .halt { background:#fbe9e7; border:1px solid #f0c4be; border-radius:8px; padding:8px 10px; margin-bottom:10px; }
+  .grid { display:grid; grid-template-columns:repeat(5,1fr); gap:4px; text-align:center; } .grid b { display:block; font-size:18px; }
+  .row2 { display:flex; gap:6px; margin-top:8px; } .row2 button { flex:1; }
+  .meter { display:flex; justify-content:space-between; }
+  ul { margin:0; padding:0; list-style:none; } li { padding:3px 0; border-top:1px solid var(--line); } li:first-child { border-top:0; } li.bad { color:var(--bad); }
+  details summary { cursor:pointer; font-weight:600; } label.row { display:flex; gap:8px; padding:6px 0; } label.row input { width:auto; margin-top:3px; }
+</style></head>
+<body>
+  <header><h1>Open Outreach</h1><span class="pill" id="pill">Off</span></header>
+  <section>
+    <div id="halt" class="halt" hidden><b>Stopped.</b> <span id="haltWhy"></span><div class="row2"><button id="resume" class="primary">I checked LinkedIn, resume</button></div></div>
+    <button id="toggle" class="primary big">Find people and message them</button>
+    <div class="small muted" id="status" style="margin-top:8px"></div>
+  </section>
+  <section>
+    <div class="grid">
+      <div><b id="sFound">0</b><span class="muted small">found</span></div><div><b id="sInvited">0</b><span class="muted small">invited</span></div>
+      <div><b id="sAccepted">0</b><span class="muted small">accepted</span></div><div><b id="sMessaged">0</b><span class="muted small">messaged</span></div><div><b id="sReplied">0</b><span class="muted small">replied</span></div>
+    </div>
+    <div class="small muted" id="queue" style="margin-top:8px"></div>
+    <div class="row2"><button id="csv">Download everyone (CSV)</button><button id="opts">Settings and results</button></div>
+  </section>
+  <section>
+    <details><summary>Today</summary>
+      <div class="meter small"><span>Connection requests</span><b id="mInvite"></b></div>
+      <div class="meter small"><span>Messages</span><b id="mMessage"></b></div>
+      <div class="meter small"><span>Search pages</span><b id="mSearch"></b></div>
+      <label class="row"><input type="checkbox" id="practice"><span><b>Practice mode</b><br><span class="muted small">Finds the buttons and types messages, but never clicks Connect or Send.</span></span></label>
+    </details>
+  </section>
+  <section><b>Recent</b><ul id="log" class="small"></ul></section>
+<script type="module" src="popup.js"></script></body></html>

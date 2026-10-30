@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Open Outreach",
+  "version": "1.0.0",
+  "description": "Free, open source LinkedIn outreach that stays on your computer. Finds people, connects, messages them when they accept, and follows up. No account, no server, no AI, no API keys.",
+  "permissions": ["storage", "unlimitedStorage", "alarms", "tabs", "notifications"],
+  "host_permissions": ["http://127.0.0.1/*", "http://localhost/*"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": { "default_title": "Open Outreach", "default_popup": "popup.html" },
+  "icons": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" },
+  "content_scripts": [{ "matches": ["https://www.linkedin.com/*"], "js": ["actions.js"], "run_at": "document_idle" }],
+  "options_ui": { "page": "options.html", "open_in_tab": true }
+}

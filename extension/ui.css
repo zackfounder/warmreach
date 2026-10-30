@@ -1,0 +1,12 @@
+:root { --bg:#fffdf7; --ink:#1c1a16; --muted:#6c675a; --line:#e4ddcc; --acc:#c8400a; --ok:#2a7a4b; --bad:#b3261e; --warn:#9a6a0a; --card:#fff; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.5 -apple-system, system-ui, sans-serif; }
+.muted { color:var(--muted); } .small { font-size:12px; }
+button { font:inherit; font-weight:600; border:1px solid #cfc7b2; background:#fff; border-radius:8px; padding:6px 12px; cursor:pointer; }
+button.primary { background:var(--acc); border-color:var(--acc); color:#fff; }
+button.danger { color:var(--bad); }
+button:disabled { opacity:.5; cursor:default; }
+input, textarea, select { font:inherit; border:1px solid #cfc7b2; border-radius:8px; padding:7px 9px; background:#fff; width:100%; }
+textarea { min-height:64px; resize:vertical; }
+.pill { border-radius:99px; padding:2px 9px; font-size:11px; font-weight:700; background:#eee8d8; }
+.pill.on { background:#dff1e6; color:var(--ok); } .pill.stop { background:#f8dcd9; color:var(--bad); } .pill.reh { background:#f7ecc9; color:var(--warn); }

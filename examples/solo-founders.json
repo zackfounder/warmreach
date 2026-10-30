@@ -1,0 +1,18 @@
+{
+  "firstName": "Alex",
+  "calendarLink": "",
+  "searches": ["solo founder", "indie hacker", "building in public founder"],
+  "messageDelayMinutes": 5,
+  "followups": 1,
+  "followupDays": 4,
+  "messages": {
+    "first": [
+      { "name": "Question", "text": "Thanks for connecting, {first_name}! What are you working on at the moment?" },
+      { "name": "Feedback", "text": "Thanks for connecting, {first_name}. I'm {my_first_name} and I'm building something for founders. Could I get your honest feedback on it?" },
+      { "name": "Meeting", "text": "Thanks for connecting, {first_name}. Would you be up for a quick 15 min chat this week? I'd love to hear how you work." }
+    ],
+    "followup": [
+      { "name": "Nudge", "text": "Hey {first_name}, no pressure at all. Just checking you saw my message. Happy to keep it short." }
+    ]
+  }
+}
