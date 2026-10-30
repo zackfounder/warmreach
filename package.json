@@ -1,7 +1,7 @@
 {
-  "name": "warmreach",
+  "name": "linkedin-autopilot",
   "version": "1.0.0",
-  "description": "Free, open source LinkedIn outreach that runs in your own Chrome. Connects with no note, messages people after they accept, follows up, A/B tests your messages. No account, no server, no AI, no API keys.",
+  "description": "The whole LinkedIn outreach workflow in one free Chrome extension: find, connect (no note), message on accept, follow up, learn what works. No account, no server, no AI, no API keys.",
   "type": "module",
   "private": true,
   "license": "MIT",
