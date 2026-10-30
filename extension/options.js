@@ -67,7 +67,7 @@ function results(state) {
 }
 
 $('exportSettings').onclick = () => {
-  const a = el('a', { href: URL.createObjectURL(new Blob([JSON.stringify({ ...collect(), bridge: { url: '', token: '' }, agreed: undefined }, null, 2)], { type: 'application/json' })), download: 'linkedin-autopilot-settings.json' }); a.click();
+  const a = el('a', { href: URL.createObjectURL(new Blob([JSON.stringify({ ...collect(), bridge: { url: '', token: '' }, agreed: undefined }, null, 2)], { type: 'application/json' })), download: 'linkedin-outreach-settings.json' }); a.click();
 };
 $('importBtn').onclick = () => $('importFile').click();
 $('importFile').onchange = async (e) => {
@@ -84,7 +84,7 @@ $('csv').onclick = async () => {
   const rows = peopleRows(state || newState());
   if (!rows.length) { $('saved').textContent = 'Nobody found yet.'; return; }
   const cols = Object.keys(rows[0]), esc = (v) => '"' + String(v ?? '').replace(/"/g, '""') + '"';
-  el('a', { href: URL.createObjectURL(new Blob([[cols.join(','), ...rows.map((r) => cols.map((c) => esc(r[c])).join(','))].join('\n')], { type: 'text/csv' })), download: `linkedin-autopilot-people-${new Date().toISOString().slice(0, 10)}.csv` }).click();
+  el('a', { href: URL.createObjectURL(new Blob([[cols.join(','), ...rows.map((r) => cols.map((c) => esc(r[c])).join(','))].join('\n')], { type: 'text/csv' })), download: `linkedin-outreach-people-${new Date().toISOString().slice(0, 10)}.csv` }).click();
 };
 $('importPeople').onclick = () => $('importPeopleFile').click();
 $('importPeopleFile').onchange = async (e) => {

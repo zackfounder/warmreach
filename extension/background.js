@@ -1,4 +1,4 @@
-// LinkedIn Autopilot: once a minute, ask the core "what next?", do exactly that in a LinkedIn tab, and record what happened.
+// Autonomous LinkedIn Outreach: once a minute, ask the core "what next?", do exactly that in a LinkedIn tab, and record what happened.
 // Everything lives in chrome.storage.local on this computer. Nothing is sent anywhere except to LinkedIn itself.
 import { nextWork, applyReport, newState, withDefaults, applyCommands, snapshot } from './core.js';
 import { parseCapture } from './parse.js';
@@ -76,8 +76,8 @@ async function bridgeSync() {
   if (!LOCAL.test(url)) return { error: 'The bridge address must be on this computer (127.0.0.1 or localhost).' };
   syncing = true;
   const base = url.replace(/\/+$/, '');
-  // x-linkedin-autopilot: a header a web page cannot send without a preflight the local program refuses, so other websites cannot talk to it.
-  const headers = { 'content-type': 'application/json', 'x-linkedin-autopilot': '1', ...(token ? { authorization: `Bearer ${token}` } : {}) };
+  // x-linkedin-outreach: a header a web page cannot send without a preflight the local program refuses, so other websites cannot talk to it.
+  const headers = { 'content-type': 'application/json', 'x-linkedin-outreach': '1', ...(token ? { authorization: `Bearer ${token}` } : {}) };
   try {
     let acks = [];
     const got = await fetch(base + '/commands', { headers, signal: AbortSignal.timeout(4000) });
@@ -110,7 +110,7 @@ async function step({ force = false } = {}) {
     const w = nextWork(state, settings, Date.now());
     if (w.type === 'halted') {
       if (!state.notifiedHalt) {
-        chrome.notifications.create({ type: 'basic', iconUrl: 'icon128.png', title: 'LinkedIn Autopilot stopped', message: w.halt.reason });
+        chrome.notifications.create({ type: 'basic', iconUrl: 'icon128.png', title: 'LinkedIn outreach stopped', message: w.halt.reason });
         state = { ...state, notifiedHalt: true };
       }
       state = { ...state, status: 'Stopped: ' + w.halt.reason };
@@ -128,7 +128,7 @@ async function step({ force = false } = {}) {
     next.status = next.halt ? 'Stopped: ' + next.halt.reason : `Done: ${w.type === 'send' ? w.kind : w.type}`;
     await saveState(next);
     if (next.halt && !fresh.halt) {
-      chrome.notifications.create({ type: 'basic', iconUrl: 'icon128.png', title: 'LinkedIn Autopilot stopped', message: next.halt.reason });
+      chrome.notifications.create({ type: 'basic', iconUrl: 'icon128.png', title: 'LinkedIn outreach stopped', message: next.halt.reason });
       await saveState({ ...next, notifiedHalt: true });
     }
     return { work: w, report, state: next };

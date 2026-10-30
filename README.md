@@ -1,12 +1,12 @@
-# LinkedIn Autopilot
+# Autonomous LinkedIn Outreach
 
-**The whole LinkedIn outreach workflow in one free Chrome extension:**
+**The full LinkedIn outreach process, on autopilot, in one free Chrome extension:**
 
 **Find** your ideal customers → **Connect** (no note) → **Message** the moment they accept → **Follow up** if they go quiet → **Learn** which message gets replies.
 
 One button. Runs in your own Chrome. No account, no subscription, no server, no AI, no API keys. Free and open source.
 
-> **Read this first.** LinkedIn's terms prohibit automation, and accounts get restricted, sometimes at low volume. LinkedIn Autopilot goes slowly and stops by itself if LinkedIn shows a warning, but it cannot make that risk zero. Use it on an account you can afford to lose, or don't use it. This project is not affiliated with LinkedIn.
+> **Read this first.** LinkedIn's terms prohibit automation, and accounts get restricted, sometimes at low volume. It goes slowly and stops by itself if LinkedIn shows a warning, but it cannot make that risk zero. Use it on an account you can afford to lose, or don't use it. This project is not affiliated with LinkedIn.
 
 ## The workflow, step by step
 
@@ -24,7 +24,7 @@ Messages use `{first_name}`, `{company}`, `{my_first_name}` and `{calendar_link}
 
 Looking for a free alternative to Waalaxy, Dripify, Expandi or Linked Helper? This is a different kind of tool.
 
-| | LinkedIn Autopilot | Typical LinkedIn automation tools |
+| | This extension | Typical LinkedIn automation tools |
 |---|---|---|
 | **Price** | Free, MIT licensed | Usually a monthly subscription per account |
 | **Where it runs** | In your own Chrome, on your computer | Often on the vendor's servers |
@@ -45,7 +45,7 @@ Looking for a free alternative to Waalaxy, Dripify, Expandi or Linked Helper? Th
 2. In Chrome open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked**, and choose the `extension` folder.
 3. The settings page opens. Add your first name, check the searches and the messages, and press **Save**. (`examples/solo-founders.json` is a starting point you can import.)
 4. Log in to LinkedIn in that same Chrome.
-5. Click the LinkedIn Autopilot icon and press **Find people and message them**.
+5. Click the extension's icon and press **Find people and message them**.
 
 It only works while Chrome is open. It acts about once a minute, only in your working hours (8:00 to 19:00 on weekdays by default).
 

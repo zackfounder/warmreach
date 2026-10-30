@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "LinkedIn Autopilot",
+  "name": "Autonomous LinkedIn Outreach",
   "version": "1.0.0",
-  "description": "Find, connect, message, follow up and learn on LinkedIn. Free, runs in your Chrome, stops itself on any warning.",
+  "description": "The full LinkedIn outreach process, on autopilot: find, connect, message, follow up, learn. Free, runs in your Chrome.",
   "permissions": ["storage", "unlimitedStorage", "alarms", "tabs", "notifications"],
   "host_permissions": ["http://127.0.0.1/*", "http://localhost/*"],
   "background": { "service_worker": "background.js", "type": "module" },
-  "action": { "default_title": "LinkedIn Autopilot", "default_popup": "popup.html" },
+  "action": { "default_title": "Autonomous LinkedIn Outreach", "default_popup": "popup.html" },
   "icons": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" },
   "content_scripts": [{ "matches": ["https://www.linkedin.com/*"], "js": ["actions.js"], "run_at": "document_idle" }],
   "options_ui": { "page": "options.html", "open_in_tab": true }

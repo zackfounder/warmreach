@@ -1,7 +1,7 @@
 {
-  "name": "linkedin-autopilot",
+  "name": "autonomous-linkedin-outreach",
   "version": "1.0.0",
-  "description": "The whole LinkedIn outreach workflow in one free Chrome extension: find, connect (no note), message on accept, follow up, learn what works. No account, no server, no AI, no API keys.",
+  "description": "Autonomous LinkedIn outreach, the full process in one free Chrome extension: find leads, connect (no note), message on accept, follow up, learn what works. No account, no server, no AI, no API keys.",
   "type": "module",
   "private": true,
   "license": "MIT",

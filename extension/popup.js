@@ -31,7 +31,7 @@ $('toggle').onclick = async () => {
   const { settings, state, raw } = await load();
   if (!settings.firstName.trim()) return chrome.runtime.openOptionsPage();
   if (!state.enabled && !raw.agreed) {
-    if (!confirm('LinkedIn Autopilot clicks buttons on LinkedIn for you.\n\nLinkedIn\'s terms prohibit automation, and accounts can be restricted, even at low volume. It goes slowly and stops by itself if LinkedIn shows a warning, but it cannot make that risk zero.\n\nStart anyway?')) return;
+    if (!confirm('This extension clicks buttons on LinkedIn for you.\n\nLinkedIn\'s terms prohibit automation, and accounts can be restricted, even at low volume. It goes slowly and stops by itself if LinkedIn shows a warning, but it cannot make that risk zero.\n\nStart anyway?')) return;
     await chrome.storage.local.set({ settings: { ...raw, agreed: true } });
   }
   await send({ type: 'toggle', enabled: !state.enabled });
@@ -48,7 +48,7 @@ $('csv').onclick = async () => {
   const esc = (v) => '"' + String(v ?? '').replace(/"/g, '""') + '"';
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([[cols.join(','), ...rows.map((r) => cols.map((c) => esc(r[c])).join(','))].join('\n')], { type: 'text/csv' }));
-  a.download = `linkedin-autopilot-people-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.download = `linkedin-outreach-people-${new Date().toISOString().slice(0, 10)}.csv`;
   a.click();
 };
 refresh(); setInterval(refresh, 3000);
