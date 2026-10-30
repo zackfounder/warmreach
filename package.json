@@ -1,7 +1,7 @@
 {
-  "name": "open-outreach",
+  "name": "warmreach",
   "version": "1.0.0",
-  "description": "Free, open source LinkedIn outreach in a Chrome extension. No server, no AI, no API keys.",
+  "description": "Free, open source LinkedIn outreach that runs in your own Chrome. Connects with no note, messages people after they accept, follows up, A/B tests your messages. No account, no server, no AI, no API keys.",
   "type": "module",
   "private": true,
   "license": "MIT",
