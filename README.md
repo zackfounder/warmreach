@@ -1,37 +1,43 @@
-# Warmreach
+# LinkedIn Autopilot
 
-**Free, open source LinkedIn outreach that runs inside your own Chrome.** It connects with no note, messages people only after they accept, follows up if they go quiet, and tells you which of your messages actually gets replies. No account, no subscription, no server, no AI, no API keys.
+**The whole LinkedIn outreach workflow in one free Chrome extension:**
 
-> **Read this first.** LinkedIn's terms prohibit automation, and accounts get restricted, sometimes at low volume. Warmreach goes slowly and stops by itself if LinkedIn shows a warning, but it cannot make that risk zero. Use it on an account you can afford to lose, or don't use it. This project is not affiliated with LinkedIn.
+**Find** your ideal customers → **Connect** (no note) → **Message** the moment they accept → **Follow up** if they go quiet → **Learn** which message gets replies.
 
-If you are looking for a free alternative to subscription tools like Waalaxy, Dripify, Expandi or Linked Helper, this is a different kind of tool: it lives in your browser, your data never leaves your computer, and it costs nothing.
+One button. Runs in your own Chrome. No account, no subscription, no server, no AI, no API keys. Free and open source.
+
+> **Read this first.** LinkedIn's terms prohibit automation, and accounts get restricted, sometimes at low volume. LinkedIn Autopilot goes slowly and stops by itself if LinkedIn shows a warning, but it cannot make that risk zero. Use it on an account you can afford to lose, or don't use it. This project is not affiliated with LinkedIn.
+
+## The workflow, step by step
+
+| Step | What happens | You do |
+|---|---|---|
+| **1. Find** | Runs the searches you write (`solo founder`, `indie hacker`, anything you would type into LinkedIn), one page at a time, only on people you are not connected to. Saves everyone it finds. | Write the searches. Download everyone as a CSV whenever you want. |
+| **2. Connect** | Presses Connect with **no note**. Skips anyone you already know. | Nothing. |
+| **3. Message** | A few minutes after someone accepts, sends one of your first messages with their first name filled in. Versions go out in turn. | Write 1 to 3 versions (a question, feedback, a meeting ask). |
+| **4. Follow up** | If there is no reply after a few days, sends a follow-up. Anyone who replies is left alone. | Choose 0 to 2 follow-ups and the gap in days. |
+| **5. Learn** | A table shows how many people each version reached and how many answered. | Keep the winner, drop the rest. |
+
+Messages use `{first_name}`, `{company}`, `{my_first_name}` and `{calendar_link}`. A version that needs something a person does not have (a company, say) is skipped for them.
 
 ## Why it is different
 
-| | Warmreach | Typical LinkedIn automation tools |
+Looking for a free alternative to Waalaxy, Dripify, Expandi or Linked Helper? This is a different kind of tool.
+
+| | LinkedIn Autopilot | Typical LinkedIn automation tools |
 |---|---|---|
-| **Price** | Free, MIT licensed | Usually a monthly subscription per account, sometimes with a limited free tier |
-| **Where it runs** | In your own Chrome, on your computer | Often on the vendor's servers, or tied to a vendor account |
+| **Price** | Free, MIT licensed | Usually a monthly subscription per account |
+| **Where it runs** | In your own Chrome, on your computer | Often on the vendor's servers |
 | **Your data** | Stays in your browser. It talks to LinkedIn and nothing else | Stored in the vendor's cloud |
-| **Who gets messaged** | **Only people who accepted you.** Connection requests carry no note, and people you are already connected to are never touched | Often cold direct messages or notes on the request |
-| **Your messages** | Fixed texts you write, with the first name filled in. Nothing is generated, so nothing surprising goes out under your name | Often AI-written or sequence builders |
-| **Does it learn what works?** | Yes: your versions go out in turn and a table shows the reply rate of each | Varies, often a paid feature |
-| **When LinkedIn warns you** | It **stops itself** and tells you (security check, logged out, "unusual activity", weekly invitation limit, or three failed steps in a row) | Varies |
+| **Who gets messaged** | **Only people who accepted you.** Requests carry no note, and people you already know are never touched | Often cold messages or notes on the request |
+| **Your messages** | Fixed texts you write, with the first name filled in. Nothing is generated | Often AI-written |
+| **Learns what works** | Yes: versions rotate and a table shows the reply rate of each | Varies, often paid |
+| **When LinkedIn warns you** | **Stops itself** and tells you (security check, logged out, "unusual activity", weekly invitation limit, three failed steps in a row) | Varies |
 | **Pace** | Starts at 25% of your limits and ramps up over 14 days, working hours only, 3 to 9 minutes between actions | Varies |
-| **Setup** | Load the folder in Chrome. About two minutes. No Docker, Python or model keys | Account, plan, onboarding |
+| **Setup** | Load the folder in Chrome. About two minutes | Account, plan, onboarding |
 | **Scriptable** | Optional local bridge so your own scripts or agents can read progress and queue messages, under the same limits | Rarely |
 
 **What it is not:** it does not write messages for you, it does not run in the cloud (it works while Chrome is open), and it cannot promise your account will never be restricted.
-
-## What it does
-
-1. **Finds people.** You write the searches you would type into LinkedIn (for example `solo founder`, `indie hacker`). It runs them one page at a time, looking only at people you are not connected to yet, and saves everyone it finds. You can download them all as a CSV.
-2. **Connects.** It presses Connect, with no note.
-3. **Messages on accept.** A few minutes after someone accepts, they get one of your first messages with their first name filled in. Write several versions: they go out in turn so you can see which one gets answered.
-4. **Follows up.** If there is no reply after a few days, it sends a follow-up (you choose how many, 0 to 2, and how many days apart).
-5. **Stops at a reply.** Anyone who answers gets nothing more automatically.
-
-Messages use `{first_name}`, `{company}`, `{my_first_name}` and `{calendar_link}`. A version that needs something a person does not have (a company, say) is skipped for them.
 
 ## Install (2 minutes)
 
@@ -39,7 +45,7 @@ Messages use `{first_name}`, `{company}`, `{my_first_name}` and `{calendar_link}
 2. In Chrome open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked**, and choose the `extension` folder.
 3. The settings page opens. Add your first name, check the searches and the messages, and press **Save**. (`examples/solo-founders.json` is a starting point you can import.)
 4. Log in to LinkedIn in that same Chrome.
-5. Click the Warmreach icon and press **Find people and message them**.
+5. Click the LinkedIn Autopilot icon and press **Find people and message them**.
 
 It only works while Chrome is open. It acts about once a minute, only in your working hours (8:00 to 19:00 on weekdays by default).
 
