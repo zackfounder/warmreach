@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Open Outreach settings</title><link rel="stylesheet" href="ui.css">
+<style>
+  main { max-width:760px; margin:0 auto; padding:24px 20px 80px; }
+  h1 { font-size:22px; margin:0 0 4px; } h2 { font-size:16px; margin:28px 0 6px; } p { margin:4px 0 10px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin:10px 0; }
+  label { display:block; font-weight:600; margin:10px 0 4px; } label span { font-weight:400; }
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:12px; } .three { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .ver { border-top:1px solid var(--line); padding-top:10px; margin-top:10px; } .ver:first-of-type { border-top:0; padding-top:0; margin-top:0; }
+  .bar { position:fixed; bottom:0; left:0; right:0; background:var(--bg); border-top:1px solid var(--line); padding:10px 20px; display:flex; gap:12px; align-items:center; justify-content:center; }
+  table { width:100%; border-collapse:collapse; font-size:13px; } th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; } th { color:var(--muted); font-weight:600; }
+  .tag { font-size:12px; color:var(--muted); }
+</style></head>
+<body><main>
+  <h1>Open Outreach</h1>
+  <p class="muted">Free and open source. Everything stays on this computer: no account, no server, no AI, no API keys. You must be logged in to LinkedIn in this browser.</p>
+
+  <h2>1. About you</h2>
+  <div class="card">
+    <div class="two">
+      <div><label for="firstName">Your first name</label><input id="firstName" placeholder="Alex"></div>
+      <div><label for="calendarLink">Booking link <span class="muted">(optional, for {calendar_link})</span></label><input id="calendarLink" placeholder="https://cal.com/you"></div>
+    </div>
+  </div>
+
+  <h2>2. Who to find</h2>
+  <div class="card">
+    <label for="searches">LinkedIn searches <span class="muted">(one per line, like you would type into LinkedIn's search box)</span></label>
+    <textarea id="searches" placeholder="solo founder&#10;indie hacker"></textarea>
+    <p class="small muted">It only looks at people who are not connected to you yet (2nd and 3rd degree), and saves everyone it finds so you can export them.</p>
+  </div>
+
+  <h2>3. What it says</h2>
+  <p class="muted">Connection requests go out with <b>no note</b>. When someone accepts, they get one of your first messages. Versions are used in turn, so Results shows which one gets answered. Use <code>{first_name}</code>, <code>{company}</code>, <code>{my_first_name}</code> and <code>{calendar_link}</code>. A version that needs something the person does not have (like a company) is skipped for them.</p>
+  <div class="card"><b>First message, after they accept</b><div id="first"></div><button id="addFirst">+ Add a version</button></div>
+  <div class="card"><b>Follow-up, if they do not reply</b><div id="followup"></div><button id="addFollowup">+ Add a version</button>
+    <div class="three" style="margin-top:12px">
+      <div><label for="followups">Follow-ups to send</label><select id="followups"><option>0</option><option>1</option><option>2</option></select></div>
+      <div><label for="followupDays">Days between</label><input id="followupDays" type="number" min="1" max="30"></div>
+      <div><label for="messageDelayMinutes">Wait after accept (minutes)</label><input id="messageDelayMinutes" type="number" min="0" max="1440"></div>
+    </div></div>
+
+  <h2>4. How fast</h2>
+  <div class="card">
+    <div class="three">
+      <div><label for="invite">Connection requests per day</label><input id="invite" type="number" min="1" max="40"></div>
+      <div><label for="message">Messages per day</label><input id="message" type="number" min="1" max="80"></div>
+      <div><label for="searchPagesPerDay">Search pages per day</label><input id="searchPagesPerDay" type="number" min="0" max="30"></div>
+    </div>
+    <div class="three">
+      <div><label for="start">Working hours from</label><input id="start" type="number" min="0" max="23"></div>
+      <div><label for="end">to</label><input id="end" type="number" min="1" max="24"></div>
+      <div><label for="weekends">Weekends</label><select id="weekends"><option value="no">No</option><option value="yes">Yes</option></select></div>
+    </div>
+    <p class="small muted">Limits start at 25% on day one and rise to the full number over 14 days. It waits 3 to 9 minutes between invitations and messages. Higher numbers raise the risk of LinkedIn restricting your account.</p>
+  </div>
+
+  <h2>Advanced: connect another program</h2>
+  <div class="card">
+    <details><summary>Let a program on this computer read your progress and hand over messages to send</summary>
+      <p class="small muted">Optional, and off by default. Leave it empty and nothing leaves the extension. The address must be on this computer. What it can read and ask for is described in docs/BRIDGE.md; whatever it asks for still follows your limits, hours and stops.</p>
+      <div class="two"><div><label for="bridgeUrl">Address</label><input id="bridgeUrl" placeholder="http://127.0.0.1:5151/bridge"></div><div><label for="bridgeToken">Token</label><input id="bridgeToken" type="password" autocomplete="off"></div></div>
+    </details>
+  </div>
+
+  <h2>Results</h2>
+  <div class="card" id="results"></div>
+
+  <h2>Your data</h2>
+  <div class="card">
+    <button id="exportSettings">Export settings</button> <button id="importBtn">Import settings</button> <input id="importFile" type="file" accept="application/json" hidden>
+    <button id="csv">Download everyone (CSV)</button> <button id="importPeople">Import people (CSV)</button> <input id="importPeopleFile" type="file" accept=".csv,text/csv" hidden> <button id="reset" class="danger">Delete everything it has collected</button>
+    <p class="small muted">Everything is stored in this browser's extension storage. Removing the extension deletes it.</p>
+  </div>
+</main>
+<div class="bar"><button id="save" class="primary">Save</button><span id="saved" class="small muted"></span></div>
+<script type="module" src="options.js"></script></body></html>
