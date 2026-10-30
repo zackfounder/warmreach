@@ -1,0 +1,66 @@
+[
+  {
+    "name": "search results: name printed twice, degree marker, location, action buttons",
+    "text": "Rachel Kim\nRachel Kim\n• 2nd\nVP Revenue Operations at Northwind\nAustin, Texas, United States\nCurrent: VP Revenue Operations at Northwind\nMessage\nJonas Weber\nJonas Weber\n• 3rd+\nHead of Growth at Lattice Cloud\nBerlin, Germany\nConnect\n",
+    "links": [
+      { "text": "Rachel Kim", "href": "https://www.linkedin.com/in/rachel-kim-1a2b3c?miniProfileUrn=x" },
+      { "text": "Jonas Weber", "href": "https://www.linkedin.com/in/jonas-weber" }
+    ],
+    "expect": [
+      { "name": "Rachel Kim", "role": "VP Revenue Operations", "company": "Northwind", "location": "Austin, Texas, United States" },
+      { "name": "Jonas Weber", "role": "Head of Growth", "company": "Lattice Cloud", "location": "Berlin, Germany" }
+    ]
+  },
+  {
+    "name": "link text carries 'View ...'s profile' wording, pronouns, credentials and emoji",
+    "text": "Ana Silva (she/her), MBA 🚀\n• 2nd\nFounder at Brightpath\nLisbon, Portugal\nFollow\nTomás Alvarez, PMP, CSM\nCRO at Fieldstone\nMadrid, Spain\n",
+    "links": [
+      { "text": "View Ana Silva’s graphic link", "href": "https://www.linkedin.com/in/ana-silva-9z" },
+      { "text": "Tomás Alvarez, PMP, CSM", "href": "https://www.linkedin.com/in/tomas-alvarez" }
+    ],
+    "expect": [
+      { "name": "Ana Silva", "role": "Founder", "company": "Brightpath", "location": "Lisbon, Portugal" },
+      { "name": "Tomás Alvarez", "role": "CRO", "company": "Fieldstone", "location": "Madrid, Spain" }
+    ]
+  },
+  {
+    "name": "post reactions list: name, degree, headline, Follow",
+    "text": "Reactions\nAll 48\nPriya Nair\n• 2nd\nDirector of Sales at Harbor\nFollow\nMarcus Lee\n• 1st\nFounder at Pixel Studio\nMessage\n",
+    "links": [
+      { "text": "Priya Nair", "href": "https://www.linkedin.com/in/priya-nair" },
+      { "text": "Marcus Lee", "href": "https://www.linkedin.com/in/marcus-lee" }
+    ],
+    "expect": [
+      { "name": "Priya Nair", "role": "Director of Sales", "company": "Harbor" },
+      { "name": "Marcus Lee", "role": "Founder", "company": "Pixel Studio" }
+    ]
+  },
+  {
+    "name": "sales navigator style links",
+    "text": "Dan Okafor\nHead of Revenue at Pylon\nLondon, England, United Kingdom\n",
+    "links": [{ "text": "Dan Okafor", "href": "https://www.linkedin.com/sales/lead/ACwAAB123,NAME_SEARCH,xyz" }],
+    "expect": [{ "name": "Dan Okafor", "role": "Head of Revenue", "company": "Pylon" }]
+  },
+  {
+    "name": "junk links are ignored: members, companies, own nav items, duplicates",
+    "text": "LinkedIn Member\nSomething\nSam Brooks\nBarista at Blue Bottle\n",
+    "links": [
+      { "text": "LinkedIn Member", "href": "https://www.linkedin.com/in/ACoAAAx" },
+      { "text": "Premium", "href": "https://www.linkedin.com/in/premium" },
+      { "text": "3 mutual connections", "href": "https://www.linkedin.com/in/someone" },
+      { "text": "Sam Brooks", "href": "https://www.linkedin.com/in/sam-brooks" },
+      { "text": "Sam Brooks", "href": "https://www.linkedin.com/in/sam-brooks/?trk=x" },
+      { "text": "Acme", "href": "https://www.linkedin.com/company/acme" }
+    ],
+    "expect": [{ "name": "Sam Brooks", "role": "Barista", "company": "Blue Bottle" }]
+  },
+  {
+    "name": "no links at all: pasted selection falls back to line parsing",
+    "text": "Elena Petrova | VP Sales at CloudLedger | https://www.linkedin.com/in/elena-petrova\nChen Wei - Head of Growth at Stackwise",
+    "links": [],
+    "expect": [
+      { "name": "Elena Petrova", "role": "VP Sales", "company": "CloudLedger" },
+      { "name": "Chen Wei", "role": "Head of Growth", "company": "Stackwise" }
+    ]
+  }
+]

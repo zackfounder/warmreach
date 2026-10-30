@@ -1,0 +1,71 @@
+<!doctype html><meta charset="utf-8"><title>LinkedIn fixture</title>
+<style>body{font:14px system-ui;margin:20px} [role=dialog]{position:fixed;top:80px;left:80px;background:#fff;border:1px solid #999;padding:16px;width:420px;z-index:9}
+.msg-overlay{position:fixed;bottom:0;right:20px;width:320px;border:1px solid #999;background:#fff;padding:8px} [contenteditable]{border:1px solid #aaa;min-height:40px;padding:4px}</style>
+<body><nav><a href="/feed/">Home</a></nav><div id="app"></div>
+<script>
+// A stand-in for the LinkedIn pages the extension drives. It copies the *kinds* of controls LinkedIn shows (visible labels,
+// aria-labels, dialogs, a contenteditable composer), and records what was done in window.__log. It is not LinkedIn.
+window.__log = [];
+const path = location.pathname, app = document.getElementById('app');
+const slug = (path.match(/^\/in\/([^/]+)/) || [])[1] || '';
+const variant = slug.split('-')[0];
+const nice = slug.split('-').slice(1).map((w) => w[0].toUpperCase() + w.slice(1)).join(' ') || 'Someone';
+const el = (h) => { const d = document.createElement('div'); d.innerHTML = h.trim(); return d.firstElementChild; };
+// LinkedIn renders its pop-ups inside a shadow root (#interop-outlet); the stand-in does too.
+const outlet = document.createElement('div'); outlet.id = 'interop-outlet'; document.body.append(outlet);
+const sr = outlet.attachShadow({ mode: 'open' });
+function closeDlg() { sr.querySelectorAll('[role=dialog]').forEach((d) => d.remove()); }
+
+if (/^\/in\//.test(path)) {
+  const first = variant === 'first';
+  app.append(el(`<main><section id="top"><h1>${nice}</h1><p>Founder at Example · ${first ? '1st' : '2nd'}</p><div id="actions"></div></section></main>`));
+  const actions = document.getElementById('actions');
+  const btn = (label, aria) => { const b = document.createElement('button'); b.textContent = label; if (aria) b.setAttribute('aria-label', aria); actions.append(b); return b; };
+  if (variant === 'pending') btn('Pending', `Pending, click to withdraw invitation sent to ${nice}`);
+  else if (first) {
+    btn('Message').onclick = () => {
+      document.body.append(el(`<div class="msg-overlay"><button aria-label="Close your conversation with ${nice}">x</button><div role="textbox" contenteditable="true" aria-label="Write a message"></div><div id="thread"></div><button type="submit">Send</button></div>`));
+      const o = document.querySelector('.msg-overlay'), box = o.querySelector('[role=textbox]');
+      o.querySelector('[type=submit]').onclick = () => { const t = box.innerText.trim(); if (!t) return; window.__log.push({ kind: 'message', text: t }); o.querySelector('#thread').textContent = t; box.innerHTML = ''; };
+      o.querySelector('button[aria-label^=Close]').onclick = () => o.remove();
+    };
+  } else {
+    const doConnect = () => {
+      if (variant === 'restricted') { document.body.append(el('<div>We have noticed unusual activity on your account. Your account has been temporarily restricted.</div>')); return; }
+      const hasNote = variant !== 'nonote';
+      const dlg = el(`<div role="dialog"><button aria-label="Dismiss">x</button><h2>Add a note to your invitation?</h2><div id="choices">${hasNote ? '<button id="addnote">Add a note</button>' : ''}<button id="plain">Send without a note</button></div></div>`);
+      sr.append(dlg);
+      dlg.querySelector('[aria-label=Dismiss]').onclick = closeDlg;
+      const finish = (note) => {
+        if (variant === 'limit') { dlg.innerHTML = '<p>You’ve reached the weekly invitation limit. Try again next week.</p><button aria-label="Dismiss" onclick="this.parentNode.remove()">Got it</button>'; return; }
+        window.__log.push({ kind: 'invite', note }); closeDlg(); actions.innerHTML = ''; btn('Pending', `Pending, click to withdraw invitation sent to ${nice}`);
+      };
+      dlg.querySelector('#plain').onclick = () => finish('');
+      const add = dlg.querySelector('#addnote');
+      if (add) add.onclick = () => { dlg.querySelector('#choices').innerHTML = '<textarea name="message" rows="4" cols="40"></textarea><button id="send">Send</button>'; dlg.querySelector('#send').onclick = () => finish(dlg.querySelector('textarea').value); };
+    };
+    if (variant === 'more') {
+      const more = btn('More', 'More actions');
+      more.onclick = () => { const m = el(`<div role="menu"><div role="menuitem" aria-label="Invite ${nice} to connect"><span>Connect</span></div></div>`); actions.append(m); m.querySelector('[role=menuitem]').onclick = () => { m.remove(); doConnect(); }; };
+    } else if (variant === 'instant') {
+      // Some profiles send the invitation the moment Connect is clicked, with no dialog and no note.
+      btn('Connect', `Invite ${nice} to connect`).onclick = () => { window.__log.push({ kind: 'invite', note: '' }); actions.innerHTML = ''; btn('Pending', `Pending, click to withdraw invitation sent to ${nice}`); };
+    } else btn('Connect', `Invite ${nice} to connect`).onclick = doConnect;
+    btn('Follow');
+  }
+} else if (path === '/feed/') {
+  app.append(el('<main><h2>Your feed</h2><p>Posts from people you follow will show up here for you to read through and react to.</p><button>Start a post</button></main>'));
+  app.querySelector('button').onclick = () => {
+    const d = el('<div role="dialog"><button aria-label="Dismiss">x</button><div role="textbox" contenteditable="true" aria-label="Text editor for creating content"></div><button>Post</button></div>');
+    sr.append(d);
+    d.querySelector('[aria-label=Dismiss]').onclick = () => { if (!d.querySelector('[role=textbox]').innerText.trim()) return d.remove(); d.append(el('<div role="alertdialog"><button>Discard</button><button>Save as draft</button></div>')); d.querySelector('[role=alertdialog] button').onclick = closeDlg; };
+    d.querySelector('div ~ button, button:last-of-type').onclick = () => { window.__log.push({ kind: 'post', text: d.querySelector('[role=textbox]').innerText.trim() }); closeDlg(); document.body.append(el('<div class="toast">Post successful. <a href="/feed/update/urn:li:activity:7777/">View post</a></div>')); };
+  };
+} else if (path.startsWith('/mynetwork/')) {
+  app.append(el('<main><h1>Connections</h1><p>You can see everyone you are connected with here, with the most recent connections listed first.</p><ul><li><a href="/in/connect-jonas-weber/">Jonas Weber</a></li><li><a href="/in/connect-old-friend/">Old Friend</a></li></ul></main>'));
+} else if (path.startsWith('/messaging')) {
+  app.append(el('<main><h1>Messaging</h1><ul><li><a href="/messaging/thread/1/"><div>Jonas Weber</div><div>2h</div><div>Thanks for reaching out, happy to chat</div></a></li><li><a href="/messaging/thread/2/"><div>Ana Silva</div><div>1d</div><div>You: Hi Ana, a quick question</div></a></li><li><a href="/messaging/thread/3/"><div>Rachel Kim</div><div>3h</div><div>Sounds great, tell me more</div></a></li></ul></main>'));
+} else if (path.startsWith('/checkpoint/')) {
+  app.append(el('<main><h1>Let’s do a quick security check</h1><p>Please complete this challenge to continue using LinkedIn.</p></main>'));
+} else { app.append(el('<main><h1>Not found</h1><p>This page does not exist in the fixture and it is only here for the tests.</p></main>')); }
+</script>
